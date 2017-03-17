@@ -1,0 +1,33 @@
+swagger: '2.0'
+info:
+  version: '0.1'
+  title: Hello
+  description: 'Example app'
+
+paths:
+  '/hello/{name}':
+    get:
+      operationId: example_app.hello
+      parameters:
+        - name: name
+          description: name.
+          in: path
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Hello
+          schema:
+            $ref: '#/definitions/hello'
+
+definitions:
+  hello:
+    title: hello
+    type: object
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        description: say hello to
+        example: world

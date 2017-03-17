@@ -1,7 +1,6 @@
 import logging
 import pathlib
 
-import flask
 import werkzeug.exceptions
 
 from .api import Api
@@ -14,13 +13,13 @@ logger = logging.getLogger('connexion.app')
 
 
 class App(object):
-    def __init__(self, import_name, port=None, specification_dir='',
+    def __init__(self, flask_app, port=None, specification_dir='',
                  server=None, arguments=None, auth_all_paths=False,
                  debug=False, swagger_json=True, swagger_ui=True, swagger_path=None,
                  swagger_url=None, host=None, validator_map=None):
         """
-        :param import_name: the name of the application package
-        :type import_name: str
+        :param flask_app: the flask app
+        :type flask_app: object
         :param host: the host interface to bind on.
         :type host: str
         :param port: port to listen to
@@ -46,7 +45,7 @@ class App(object):
         :param validator_map: map of validators
         :type validator_map: dict
         """
-        self.app = flask.Flask(import_name)
+        self.app = flask_app
 
         self.app.json_encoder = ConnexionJSONEncoder
 
@@ -72,7 +71,7 @@ class App(object):
         self.host = host
         self.server = server or 'flask'
         self.debug = debug
-        self.import_name = import_name
+        self.import_name = self.app.name
         self.arguments = arguments or {}
         self.swagger_json = swagger_json
         self.swagger_ui = swagger_ui
